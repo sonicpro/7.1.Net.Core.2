@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptographyLib", "CryptographyLib\CryptographyLib.csproj", "{DAE1C261-DDBC-41EF-85E4-B6027E58C88F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptographyLib", "CryptographyLib\CryptographyLib.csproj", "{DAE1C261-DDBC-41EF-85E4-B6027E58C88F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptionApp", "EncryptionApp\EncryptionApp.csproj", "{F200C8C9-42AE-44ED-B874-51999F1FF5D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncryptionApp", "EncryptionApp\EncryptionApp.csproj", "{F200C8C9-42AE-44ED-B874-51999F1FF5D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashingApp", "HashingApp\HashingApp.csproj", "{6D873631-8593-4494-A8D9-03F1B23AEAA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureApp", "SecureApp\SecureApp.csproj", "{80801F44-DFB6-4A39-A4AF-1A5CAEAC6821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{F200C8C9-42AE-44ED-B874-51999F1FF5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F200C8C9-42AE-44ED-B874-51999F1FF5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F200C8C9-42AE-44ED-B874-51999F1FF5D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D873631-8593-4494-A8D9-03F1B23AEAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D873631-8593-4494-A8D9-03F1B23AEAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D873631-8593-4494-A8D9-03F1B23AEAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D873631-8593-4494-A8D9-03F1B23AEAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80801F44-DFB6-4A39-A4AF-1A5CAEAC6821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80801F44-DFB6-4A39-A4AF-1A5CAEAC6821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80801F44-DFB6-4A39-A4AF-1A5CAEAC6821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80801F44-DFB6-4A39-A4AF-1A5CAEAC6821}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
