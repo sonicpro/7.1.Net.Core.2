@@ -18,14 +18,34 @@ namespace NorthwindService.Reposiitories
 			this.db = db;
 			if (customersCache == null)
 			{
-				customersCache == new ConcurrentDictionary<string, Customer>(
-					db.Customers.ToDictionary(c => c.CustomerID)));
+				customersCache = new ConcurrentDictionary<string, Customer>(
+					db.Customers.ToDictionary(c => c.CustomerID));
 			}
 		}
 
-		public Task<Customer> CreateAsync(Customer c)
+		#region Interface implementation
+
+		public async Task<Customer> CreateAsync(Customer c)
 		{
-			throw new System.NotImplementedException();
+			c.CustomerID = c.CustomerID.ToUpper();
+
+			EntityEntry<Customer> added = await db.Customers.AddAsync(c);
+
+			int affected = await db.SaveChangesAsync();
+
+			// Synchronise the successful Add operation into the cache.
+			if (affected == 1)
+			{
+				// The customer might have been updated since the SaveChangesAsync() call above,
+				// so use AddOrUpdate() providing the correct "Update value factory" implementation for our use case,
+				// namely pass-through whatever the customer value is for the moment that the update is called
+				// for not changing the cached value by the update.
+				return customersCache.AddOrUpdate(c.CustomerID, c, (key, currentValue) => currentValue);
+			}
+			else // Concurrency conflict in the DB, we must retry the save operation.
+			{
+				return null;
+			}
 		}
 
 		public Task<bool> DeleteAsync(string id)
@@ -47,5 +67,7 @@ namespace NorthwindService.Reposiitories
 		{
 			throw new System.NotImplementedException();
 		}
+
+		#endregion
 	}
 }
