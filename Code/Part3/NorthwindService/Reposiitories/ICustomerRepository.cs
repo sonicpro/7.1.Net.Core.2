@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Packt.CS7;
 
-namespace NorthwindService.Reposiitories
+namespace NorthwindService.Repositories
 {
-	interface ICustomerRepository
+	public interface ICustomerRepository
 	{
 		Task<Customer> CreateAsync(Customer c);
 

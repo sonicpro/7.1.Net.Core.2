@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using NorthwindService.Repositories;
 using Packt.CS7;
 
 namespace NorthwindService
@@ -22,6 +23,7 @@ namespace NorthwindService
 			services.AddDbContext<Northwind>(options =>
 				options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Northwind;Trusted_Connection=True;MultipleActiveResultSets=true;"));
 			services.AddMvc();
+			services.AddScoped<ICustomerRepository, CustomerRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

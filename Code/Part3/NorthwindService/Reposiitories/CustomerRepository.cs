@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Packt.CS7;
 
-namespace NorthwindService.Reposiitories
+namespace NorthwindService.Repositories
 {
 	public class CustomerRepository : ICustomerRepository
 	{
