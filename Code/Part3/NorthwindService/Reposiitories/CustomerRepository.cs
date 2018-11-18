@@ -27,9 +27,9 @@ namespace NorthwindService.Reposiitories
 
 		public async Task<Customer> CreateAsync(Customer c)
 		{
-			c.CustomerID = c.CustomerID.ToUpper();
+			c.CustomerID = c.CustomerID.ToUpperInvariant();
 
-			EntityEntry<Customer> added = await db.Customers.AddAsync(c);
+			await db.Customers.AddAsync(c);
 
 			int affected = await db.SaveChangesAsync();
 
@@ -42,30 +42,75 @@ namespace NorthwindService.Reposiitories
 				// for not changing the cached value by the update.
 				return customersCache.AddOrUpdate(c.CustomerID, c, (key, currentValue) => currentValue);
 			}
-			else // Concurrency conflict in the DB, we must retry the save operation.
+			else // The Add operation is unsucessful, show "The chosen customerID is already exist" message to the user.
 			{
 				return null;
 			}
 		}
 
-		public Task<bool> DeleteAsync(string id)
+		public async Task<bool> DeleteAsync(string id)
 		{
-			throw new System.NotImplementedException();
+			return await Task.Run(() =>
+			{
+				id = id.ToUpperInvariant();
+
+				Customer c = db.Customers.Find(id);
+				db.Customers.Remove(c);
+				int affected = db.SaveChanges();
+				if (affected == 1)
+				{
+					return Task.Run(() =>
+					{
+						Customer removed;
+						return customersCache.TryRemove(id, out removed);
+					});
+				}
+				else
+				{
+					return Task.Run(() => false);
+				}
+			});
 		}
 
-		public Task<IEnumerable<Customer>> RetrieveAllAsync()
+		public async Task<IEnumerable<Customer>> RetrieveAllAsync()
 		{
-			throw new System.NotImplementedException();
+			return await Task.Run(() => customersCache.Values);
 		}
 
 		public Task<Customer> RetrieveAsync(string id)
 		{
-			throw new System.NotImplementedException();
+			return Task.Run(() =>
+			{
+				Customer c;
+				customersCache.TryGetValue(id.ToUpperInvariant(), out c);
+				return c;
+			});
 		}
 
-		public Task<Customer> UpdateAsync(string id, Customer c)
+		public async Task<Customer> UpdateAsync(string id, Customer c)
 		{
-			throw new System.NotImplementedException();
+			id = id.ToUpperInvariant();
+			c.CustomerID = c.CustomerID.ToUpperInvariant();
+
+			db.Customers.Update(c);
+			int affected = await db.SaveChangesAsync();
+
+			if (affected == 1)
+			{
+				Customer old;
+				if (customersCache.TryGetValue(id, out old) && customersCache.TryUpdate(id, c, old))
+				{
+					return c;
+				}
+				else
+				{
+					return null; // Display "The data has been already modified" message to the user.
+				}
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		#endregion
